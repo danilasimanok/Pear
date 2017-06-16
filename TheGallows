@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+public class dfsbh {
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+        String word;
+        word = sc.next();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        for (int i=0; i<word.length(); i++)
+            System.out.print("_");
+        System.out.println();
+        String inputLetter;
+        int lifes=10;
+        int remainingLetters=word.length();
+        boolean[] statusOfLetters=new boolean[word.length()];
+        String[] wrongLetters=new String[33];
+        System.out.println("у вас  "+lifes+" жизней");
+        while (remainingLetters>0 && lifes>0){
+            inputLetter=sc.next();
+            if (word.contains(inputLetter)){
+                for (int i=0; i<word.length(); i++)
+                    if (word.substring(i, i+1).equals(inputLetter) && !statusOfLetters[i]) {
+                        statusOfLetters[i] = true;
+                        remainingLetters--;
+                    }
+                for (int i=0; i<word.length(); i++)
+                    if(statusOfLetters[i])
+                        System.out.print(word.substring(i, i+1));
+                    else
+                        System.out.print("_");
+            }
+            else {
+                boolean isRepeat=false;
+                for (int i=0; i<33; i++)
+                    if (wrongLetters[i]!=null)
+                        if (wrongLetters[i].equals(inputLetter))
+                            isRepeat=true;
+                if (isRepeat)
+                    System.out.println("вы уже вводили эту букву");
+                else{
+                    int g=0;
+                    for (int i=32; i>=0; i--)
+                        if(wrongLetters[i]==null)
+                            g=i;
+                    wrongLetters[g]=inputLetter;
+                    lifes--;
+                    System.out.println("осталось "+lifes+" жизней");
+                }
+            }
+            System.out.println();
+        }
+        if (remainingLetters==0)
+            System.out.println("Ты выиграл!");
+        if (lifes==0) {
+            System.out.println("Ты проиграл!");
+            System.out.println("Загаданное слово:");
+            System.out.println(word);
+        }
+    }
+}
